@@ -21,4 +21,4 @@
 #include <sys/resource.h>  // struct rusage, getrusage(), RUSAGE_THREAD
 #include <sys/time.h>      // struct timeval (ru_utime fields)
 
-#endif //__COMMON_H__
+#endif  //__COMMON_H__
