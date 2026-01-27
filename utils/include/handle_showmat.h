@@ -1,4 +1,8 @@
-#ifndef __HANDLE_SHOWMAT__
-#define __HANDLE_SHOWMAT__
+#ifndef __HANDLE_SHOWMAT_H__
+#define __HANDLE_SHOWMAT_H__
 
-#endif  //__HANDLE_SHOWMAT__
+#include "define_type.h"
+
+void showMat(MYTYPE* mat, int nrow, int ncol, const char mat_name[]);
+
+#endif //__HANDLE_SHOWMAT_H__

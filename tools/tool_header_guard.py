@@ -8,7 +8,7 @@ def generate_guard(filename: str) -> tuple[str, str]:
     """Generate header guard macro from filename."""
     # Convert to uppercase, replace non-alnum with _, prefix/suffix with __
     name = re.sub(r'[^a-zA-Z0-9]', '_', filename.upper())
-    macro = f"__{name}__"
+    macro = f"__{name}_H__"
     return macro, f"//{macro}"
 
 def add_header_guard_if_empty(hfile: Path):
