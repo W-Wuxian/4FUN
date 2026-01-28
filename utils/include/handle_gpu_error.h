@@ -8,7 +8,7 @@
 #ifdef WDEBUG
 #define gpu_errchk( ans )                                                                          \
     {                                                                                              \
-        gpuAssert( ( ans ), __FILE__, __LINE__ );                                                 \
+        gpuAssert( ( ans ), __FILE__, __LINE__ );                                                  \
     }
 #else
 #define gpu_errchk( ans )                                                                          \
@@ -17,7 +17,6 @@
     }
 #endif
 
-void
-gpuAssert( cudaError_t code, const char *file, int line);
+void gpuAssert( cudaError_t code, const char *file, int line );
 
 #endif  //__HANDLE_GPU_ERROR_H__
