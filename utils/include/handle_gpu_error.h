@@ -18,6 +18,6 @@
 #endif
 
 void
-gpuAssert( cudaError_t code, const char *file, int line, bool abort = true )
+gpuAssert( cudaError_t code, const char *file, int line);
 
 #endif  //__HANDLE_GPU_ERROR_H__

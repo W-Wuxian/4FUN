@@ -1,4 +1,4 @@
-#include "../include/handle_gpu_error.h"
+#include "handle_gpu_error.h"
 
 /**
  * @brief GPU error handling function
@@ -8,8 +8,7 @@
  * @param line   Line number in the file where the error occurred
  * 
  */
-inline void gpuAssert(cudaError_t code, const char *file, int line,
-                       bool abort = true) {
+inline void gpuAssert(cudaError_t code, const char *file, int line) {
     if (code != cudaSuccess) {
         fprintf(stderr, "gpu_assert: %s %s %d\n",
                 cudaGetErrorString(code), file, line);

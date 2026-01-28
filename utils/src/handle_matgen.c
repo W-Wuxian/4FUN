@@ -1,4 +1,4 @@
-#include "../include/handle_matgen.h"
+#include "handle_matgen.h"
 
 /**
  * @brief Generate a random integer between two values.

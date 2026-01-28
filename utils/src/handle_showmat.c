@@ -1,4 +1,4 @@
-#include "../include/handle_showmat.h"
+#include "handle_showmat.h"
 
 /**
  * @brief Show the matrix in a readable format.

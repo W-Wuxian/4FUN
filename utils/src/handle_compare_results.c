@@ -1,4 +1,4 @@
-#include "../include/handle_compare_results.h"
+#include "handle_compare_results.h"
 
 /**
  * @brief Compares host and device result computation for mismatches.
