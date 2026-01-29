@@ -20,5 +20,4 @@ void genRandArrayWithinBounds( void *A, int N );
 }
 #endif
 
-
 #endif  //__HANDLE_MATGEN_H__

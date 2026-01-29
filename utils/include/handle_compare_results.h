@@ -14,5 +14,4 @@ void checkTranspose( const MYTYPE *input, MYTYPE *output, int rows, int cols );
 }
 #endif
 
-
 #endif  //__HANDLE_COMPARE_RESULTS_H__
