@@ -3,6 +3,10 @@
 
 #include "define_type.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // https://gist.github.com/raytroop/120e2d175d95f82edbee436374293420
 // https://stackoverflow.com/questions/14038589/what-is-the-canonical-way-to-check-for-errors-using-the-cuda-runtime-api
 #ifdef WDEBUG
@@ -18,5 +22,10 @@
 #endif
 
 void gpuAssert( cudaError_t code, const char *file, int line );
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif  //__HANDLE_GPU_ERROR_H__

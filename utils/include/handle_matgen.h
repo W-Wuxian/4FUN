@@ -3,6 +3,10 @@
 
 #include "define_type.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int  genRandIntWithRange( int max_len, int min_len );
 void genRandMatWithRangeR1R2( int ( *fptr )( int, int ),
                               MYTYPE *mat,
@@ -11,5 +15,10 @@ void genRandMatWithRangeR1R2( int ( *fptr )( int, int ),
                               int     r1,
                               int     r2 );
 void genRandArrayWithinBounds( void *A, int N );
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif  //__HANDLE_MATGEN_H__

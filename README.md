@@ -28,8 +28,9 @@ nvcc -O3 -arch=sm_86 -Xcompiler -Wall --ptxas-options=-v -I$PREFIX/include/4fun 
 
 
 ```c
-#include "gpu_cblas_lvl1_d.h"   // installed header
-#include "handle_gpu_error.h"
+//#include "gpu_cblas_lvl1_d.h"
+//#include "handle_gpu_error.h"
+#include <4fun.h>
 
 int main (){
     int ierr  = 0;

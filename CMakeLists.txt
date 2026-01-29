@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.26)
 project(4FUN VERSION 1.0.0 LANGUAGES CXX C CUDA)
 enable_language(CUDA)
+include(CMakePrintHelpers)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 # Set standards
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -34,15 +36,27 @@ find_package(CUDAToolkit REQUIRED)
 
 # Utils library (C utils: matgen, showmat, etc.)
 file(GLOB UTIL_SOURCES "${PROJECT_SOURCE_DIR}/utils/src/*.c")
+# set(UTIL_SOURCES
+#     "${PROJECT_SOURCE_DIR}/utils/src/handle_showmat.c"
+#     "${PROJECT_SOURCE_DIR}/utils/src/handle_matgen.c"
+#     "${PROJECT_SOURCE_DIR}/utils/src/handle_gpu_error.c"
+#     "${PROJECT_SOURCE_DIR}/utils/src/handle_compare_results.c"
+#     "${PROJECT_SOURCE_DIR}/utils/src/handle_type.c"
+# )
 add_library(4fun_utils STATIC ${UTIL_SOURCES})
 target_link_libraries(4fun_utils BLAS::BLAS)
+set_target_properties(4fun_utils PROPERTIES LINKER_LANGUAGE C)
 
 # GPU kernels library (NVHPC cuda_runtime.h only)
 file(GLOB GPU_SOURCES "${PROJECT_SOURCE_DIR}/kernels/gpu/src/*.cu")
+# set(GPU_SOURCES
+#     "${PROJECT_SOURCE_DIR}/kernels/gpu/src/gpu_cblas_lvl1_d.cu"
+#     #"${PROJECT_SOURCE_DIR}/kernels/gpu/src/gpu_cblas_lvl2_d.cu"
+#     #"${PROJECT_SOURCE_DIR}/kernels/gpu/src/gpu_cblas_lvl3_d.cu"
+# )
 add_library(4fun_gpu STATIC ${GPU_SOURCES})
-target_link_libraries(4fun_gpu 4fun_utils CUDA::cudart)
+target_link_libraries(4fun_gpu PUBLIC 4fun_utils CUDA::cudart)
 set_target_properties(4fun_gpu PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-
 
 # Build type optimizations
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
@@ -77,5 +91,32 @@ install(TARGETS
     RUNTIME DESTINATION bin
 )
 
+# Install public main header FIRST
+# Install(FILES include/4fun.h DESTINATION include)
 file(GLOB_RECURSE ALL_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.h")
 install(FILES ${ALL_HEADERS} DESTINATION include/4fun)
+
+# EXEMPLES (GLOB récursif fixe)
+file(GLOB_RECURSE EXAMPLE_SOURCES "example/**/*.cu")
+foreach(EXAMPLE_FILE ${EXAMPLE_SOURCES})
+    get_filename_component(EXAMPLE_NAME ${EXAMPLE_FILE} NAME_WE)
+    cmake_print_variables(EXAMPLE_FILE EXAMPLE_NAME)
+    
+    add_executable(${EXAMPLE_NAME} ${EXAMPLE_FILE})
+    target_link_libraries(${EXAMPLE_NAME} PRIVATE 
+        4fun_utils
+        4fun_gpu
+        BLAS::BLAS
+        CUDA::cudart
+    )
+    
+    target_include_directories(${EXAMPLE_NAME} PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/utils/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/kernels/cpu/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/kernels/gpu/include
+        ${CUDAToolkit_INCLUDE_DIRS}
+    )
+    
+    set_target_properties(${EXAMPLE_NAME} PROPERTIES CUDA_STANDARD 17)
+endforeach()
